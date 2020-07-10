@@ -1,5 +1,8 @@
 package com.platform.entity;
 
+import lombok.Data;
+
+@Data
 public class UserEntity {
 
     /**
@@ -23,55 +26,5 @@ public class UserEntity {
      */
     private String role;
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "mobile='" + mobile + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
 
 }
