@@ -14,7 +14,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @EnableHystrix
 public class PlatformServerApplication {
-
+    //swagger地址：/localhost:8082/swagger-ui.html#/
     public static void main(String[] args) {
         SpringApplication.run(PlatformServerApplication.class, args);
     }
