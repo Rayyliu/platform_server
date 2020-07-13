@@ -6,7 +6,7 @@ import lombok.Data;
 public class ProjectDTO {
 
     private String projectName;
-    private String description;
+    private String projectDescription;
     private String projectModule;
     private String tester;
     private boolean isValid;
