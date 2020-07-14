@@ -7,10 +7,9 @@ import com.platform.response.ResultCode;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("project/")
@@ -21,8 +20,15 @@ public class ProjectController {
 
     @PostMapping("save")
     @ApiOperation("新增项目")
-    public ResponseResult saveProject(@RequestBody ProjectDTO projectDTO){
+    public ResponseResult saveProject(@RequestBody Object projectDTO) {
         projectService.addProject(projectDTO);
-        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目新增成功",projectDTO);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "项目新增成功", projectDTO);
+    }
+
+    @GetMapping("query")
+    @ApiOperation("项目列表查询")
+    public ResponseResult qure(int page,int pageSize) {
+        Object list = projectService.query(page,pageSize);
+        return new ResponseResult(ResultCode.SUCCESS.getCode(), "项目列表查询成功", list);
     }
 }
