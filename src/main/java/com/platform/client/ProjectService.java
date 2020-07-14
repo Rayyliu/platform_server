@@ -16,6 +16,6 @@ public interface ProjectService {
     boolean addProject(@RequestBody Object projectDTO);
 
     @GetMapping(value = "project/query")
-    Object query(@RequestParam("page") int page, @RequestParam("pageSize")int pageSize);
+    List query(@RequestParam("page") int page, @RequestParam("pageSize")int pageSize);
 
 }

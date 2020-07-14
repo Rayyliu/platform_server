@@ -1,6 +1,7 @@
 package com.platform.controller;
 
 import com.platform.client.ProjectService;
+import com.platform.entity.PageEntity;
 import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.ProjectDTO;
 import com.platform.response.ResultCode;
@@ -28,7 +29,9 @@ public class ProjectController {
     @GetMapping("query")
     @ApiOperation("项目列表查询")
     public ResponseResult qure(int page,int pageSize) {
-        Object list = projectService.query(page,pageSize);
-        return new ResponseResult(ResultCode.SUCCESS.getCode(), "项目列表查询成功", list);
+        List list = projectService.query(page,pageSize);
+        int count = list.size();
+        PageEntity pageEntity = new PageEntity(page,pageSize,new ProjectDTO(),count);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询列表成功",pageEntity);
     }
 }
