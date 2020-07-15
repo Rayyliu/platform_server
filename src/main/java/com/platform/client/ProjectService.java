@@ -15,7 +15,16 @@ public interface ProjectService {
     @PostMapping("project/add")
     boolean addProject(@RequestBody Object projectDTO);
 
+    @GetMapping(value = "project/queryTotal")
+    int queryTotal();
+
     @GetMapping(value = "project/query")
     List query(@RequestParam("page") int page, @RequestParam("pageSize")int pageSize);
+
+    @PostMapping("project/updateProject")
+    int updateProject(ProjectDTO projectDTO);
+
+    @GetMapping(value = "project/queryById")
+    ProjectDTO queryById(@RequestParam("projectId")int projectId);
 
 }
