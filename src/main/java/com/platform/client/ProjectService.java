@@ -34,4 +34,7 @@ public interface ProjectService {
     @GetMapping("project/updateValid")
     void updateValid(@RequestParam("projectId") String projectId,@RequestParam("valid") boolean valid);
 
+    @GetMapping("project/deletes")
+    void deletes(@RequestParam("arry") String[] arry);
+
 }

@@ -56,4 +56,11 @@ public class ProjectController {
         projectService.updateValid(projectId,valid);
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目可用状态已更新成功",null);
     }
+
+    @GetMapping("deletes")
+    @ApiOperation("批量删除项目")
+    public ResponseResult deletes(String [] arry){
+        projectService.deletes(arry);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目可用状态已更新成功",null);
+    }
 }
