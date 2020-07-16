@@ -6,11 +6,9 @@ import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.ProjectDTO;
 import com.platform.response.ResultCode;
 import io.swagger.annotations.ApiOperation;
-import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("project/")
@@ -39,9 +37,23 @@ public class ProjectController {
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询列表成功",projectService.updateProject(projectDTO));
     }
 
-    @GetMapping("queryById/")
+    @GetMapping("queryById")
     @ApiOperation("通过id查询项目详情")
     public ResponseResult queryById(int projectId){
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询项目成功",projectService.queryById(projectId));
+    }
+
+    @GetMapping("delById")
+    @ApiOperation("单挑删除项目")
+    public ResponseResult singleDelete(String projectId){
+        projectService.singleDelete(projectId);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目删除成功",null);
+    }
+
+    @GetMapping("updateValid")
+    @ApiOperation("更新项目可用状态")
+    public ResponseResult updateValid(String projectId,boolean valid){
+        projectService.updateValid(projectId,valid);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目可用状态已更新成功",null);
     }
 }

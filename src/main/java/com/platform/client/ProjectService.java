@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Component
@@ -26,5 +27,11 @@ public interface ProjectService {
 
     @GetMapping(value = "project/queryById")
     ProjectDTO queryById(@RequestParam("projectId")int projectId);
+
+    @GetMapping("project/delById")
+    void singleDelete(@RequestParam("projectId") String projectId);
+
+    @GetMapping("project/updateValid")
+    void updateValid(@RequestParam("projectId") String projectId,@RequestParam("valid") boolean valid);
 
 }
