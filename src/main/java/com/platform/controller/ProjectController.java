@@ -59,8 +59,14 @@ public class ProjectController {
 
     @GetMapping("deletes")
     @ApiOperation("批量删除项目")
-    public ResponseResult deletes(String [] arry){
-        projectService.deletes(arry);
+    public ResponseResult deletes(int[] ids){
+        projectService.deletes(ids);
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"项目可用状态已更新成功",null);
+    }
+
+    @GetMapping("queryDistProject")
+    @ApiOperation("查询所有不重复且正在启用的项目")
+    public ResponseResult queryDistProject(){
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询所有项目成功",projectService.queryProject());
     }
 }
