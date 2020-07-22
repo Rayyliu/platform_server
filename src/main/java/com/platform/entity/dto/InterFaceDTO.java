@@ -35,8 +35,8 @@ public class InterFaceDTO {
     private String description;
 
     @ApiModelProperty(value = "header详情",name = "headerDetail",required=true)
-    private JSONObject headerDetail;
+    private String  headerDetail;
 
     @ApiModelProperty(value = "接口参数",name = "body",required=true)
-    private JSONObject body;
+    private String body;
 }
