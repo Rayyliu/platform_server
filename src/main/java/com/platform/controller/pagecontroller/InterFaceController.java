@@ -25,9 +25,9 @@ public class InterFaceController {
     public ResponseResult addInterFace(@RequestBody Map<String,Object> interfaceData){
         int result = interFaceService.addInterFace(interfaceData);
         if(result == 1){
-            return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"删除成功",null);
+            return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"添加成功",null);
         }else {
-            return new ResponseResult().success(ResultCode.FAIL.getCode(),true,"删除失败",null);
+            return new ResponseResult().success(ResultCode.FAIL.getCode(),true,"添加失败",null);
         }
     }
 
