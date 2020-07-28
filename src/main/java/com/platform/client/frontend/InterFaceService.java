@@ -1,5 +1,6 @@
 package com.platform.client.frontend;
 
+import com.platform.entity.dto.InterFaceDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,4 +22,6 @@ public interface InterFaceService {
     @GetMapping("interface/queryPage")
     List queryPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize")int pageSize, @RequestParam("interfaceName") String interfaceName);
 
+    @PostMapping("interface/edit")
+    int edit(Map<String,Object> interfaceData);
 }

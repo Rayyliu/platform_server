@@ -45,4 +45,14 @@ public class InterFaceController {
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询接口列表成功",pageEntity);
     }
 
+    @PostMapping("edit")
+    @ApiOperation("编辑接口详情")
+    public ResponseResult edit(@RequestBody Map<String,Object> interfaceData){
+        int result = interFaceService.edit(interfaceData);
+        if(result == 1){
+            return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"添加成功",null);
+        }else {
+            return new ResponseResult().success(ResultCode.FAIL.getCode(),true,"添加失败",null);
+        }
+    }
 }
