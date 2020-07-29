@@ -38,7 +38,7 @@ public class InterFaceController {
             return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"删除成功",result);
     }
 
-    @GetMapping("queryPage")
+    @GetMapping(value = "queryPage",produces = "application/json")
     @ApiOperation("分页查询")
     public ResponseResult queryPage(int pageNum,int pageSize,@RequestParam(value = "interfaceName",required = false) String interfaceName){
         PageEntity pageEntity = new PageEntity(pageNum,pageSize,interFaceService.queryPage(pageNum,pageSize,interfaceName),interFaceService.queryAll());

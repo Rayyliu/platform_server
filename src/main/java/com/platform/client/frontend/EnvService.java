@@ -28,4 +28,7 @@ public interface EnvService {
 
     @GetMapping("env/deletes")
     void deletes(@RequestParam("ids") String[] ids);
+
+    @PostMapping("env/edit")
+    int update(EnvDTO env);
 }

@@ -51,5 +51,12 @@ public class EnvController {
         envService.deletes(ids);
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"批量删除成功",null);
     }
+
+    @PostMapping("edit")
+    @ApiOperation("修改环境配置")
+    public ResponseResult edit(@RequestBody EnvDTO envDTO){
+        envService.update(envDTO);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"编辑环境成功",null);
+    }
 }
 
