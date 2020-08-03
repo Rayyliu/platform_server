@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.Map;
 
 @RestController
@@ -37,6 +37,13 @@ public class InterFaceController {
         Object result = interFaceService.queryAll();
             return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"删除成功",result);
     }
+
+    @GetMapping("queryDistInterFace")
+    @ApiOperation("查询接口列表")
+    public ResponseResult queryDistInterFace(){
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询所有接口名成功",interFaceService.queryInterFace());
+    }
+
 
     @GetMapping(value = "queryPage",produces = "application/json")
     @ApiOperation("分页查询")

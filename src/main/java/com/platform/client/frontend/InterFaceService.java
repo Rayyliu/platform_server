@@ -24,4 +24,7 @@ public interface InterFaceService {
 
     @PostMapping("interface/edit")
     int edit(Map<String,Object> interfaceData);
+
+    @GetMapping("interface/queryInterFace")
+    String[] queryInterFace();
 }
