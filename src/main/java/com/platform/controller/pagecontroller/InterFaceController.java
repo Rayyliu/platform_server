@@ -62,4 +62,10 @@ public class InterFaceController {
             return new ResponseResult().success(ResultCode.FAIL.getCode(),true,"添加失败",null);
         }
     }
+
+    @GetMapping(value = "findByName",produces = "application/json")
+    @ApiOperation("根据接口名查询接口信息")
+    public ResponseResult findByName( String interfaceName){
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询接口详情成功",interFaceService.queryByName(interfaceName));
+    }
 }

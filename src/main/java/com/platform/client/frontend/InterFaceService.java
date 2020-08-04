@@ -27,4 +27,7 @@ public interface InterFaceService {
 
     @GetMapping("interface/queryInterFace")
     String[] queryInterFace();
+
+    @GetMapping("interface/queryByName")
+    Object queryByName(@RequestParam("interfaceName") String interfaceName);
 }
