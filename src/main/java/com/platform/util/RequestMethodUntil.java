@@ -22,7 +22,7 @@ public class RequestMethodUntil {
 //            for (String key : requestParameters.keySet()) {
 //                map.put(key, requestParameters.get(key));
 //            }
-            requestParameters.keySet().stream().map(key->map.put(key,requestParameters.get(key)));
+            requestParameters.keySet().stream().map(key->map.put(key,requestParameters.get(key))).collect(Collectors.toList());
             return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, map);
         }else {
             return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class);
