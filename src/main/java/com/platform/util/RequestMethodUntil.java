@@ -23,9 +23,9 @@ public class RequestMethodUntil {
 //                map.put(key, requestParameters.get(key));
 //            }
             requestParameters.keySet().stream().map(key->map.put(key,requestParameters.get(key)));
-            return restTemplate.getForObject(caseParametersDTO.getUrl(), JSONObject.class, map);
+            return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, map);
         }else {
-            return restTemplate.getForObject(caseParametersDTO.getUrl(), JSONObject.class);
+            return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class);
         }
     }
 
@@ -47,6 +47,6 @@ public class RequestMethodUntil {
         }else {
             entity = new HttpEntity<>(map);
         }
-        return restTemplate.postForObject(caseParametersDTO.getUrl(),entity, JSONObject.class);
+        return restTemplate.postForObject(caseParametersDTO.getPath(),entity, JSONObject.class);
     }
 }

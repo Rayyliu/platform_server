@@ -2,11 +2,13 @@ package com.platform.controller.excutecontroller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.CaseParametersDTO;
 import com.platform.response.ResultCode;
 import com.platform.util.HttpRequestUntil;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,7 @@ public class SingleCaseExecuteController {
     @Autowired
     HttpRequestUntil httpRequestUntil;
 
+    @SneakyThrows
     @PostMapping("execute")
     @ApiOperation("单用例执行")
     public ResponseResult execute(@RequestBody CaseParametersDTO caseParametersDTO) {
