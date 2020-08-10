@@ -43,4 +43,7 @@ public class CaseParametersDTO {
 
     @ApiModelProperty(value = "接口是否签名",name = "sign",required = true)
     private boolean sign;
+
+    @ApiModelProperty(value = "sign签名",name = "signValue",required = true)
+    private String signValue;
 }

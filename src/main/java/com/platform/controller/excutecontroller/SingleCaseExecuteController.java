@@ -27,6 +27,11 @@ public class SingleCaseExecuteController {
     @ApiOperation("单用例执行")
     public ResponseResult execute(@RequestBody CaseParametersDTO caseParametersDTO) {
         //封装get/post请求方法
+        if(caseParametersDTO.isSign()==true){
+            //签名方法
+            //取sign值
+            caseParametersDTO.setSignValue("");
+        }
         JSONObject result = httpRequestUntil.httpRequest(caseParametersDTO);
         System.out.println(result);
         return new ResponseResult().success(ResultCode.FAIL.getCode(),true,"用例执行",result);

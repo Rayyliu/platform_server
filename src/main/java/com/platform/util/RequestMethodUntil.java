@@ -18,35 +18,33 @@ public class RequestMethodUntil {
     public static JSONObject getMethod(CaseParametersDTO caseParametersDTO) {
         Map<Object, Object> map = new HashMap<>();
         JSONObject requestParameters = caseParametersDTO.getBody();
-        if (requestParameters!=null) {
-//            for (String key : requestParameters.keySet()) {
-//                map.put(key, requestParameters.get(key));
-//            }
-            requestParameters.keySet().stream().map(key->map.put(key,requestParameters.get(key))).collect(Collectors.toList());
+        if (requestParameters != null) {
+            requestParameters.keySet().stream().map(key -> map.put(key, requestParameters.get(key))).collect(Collectors.toList());
             return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, map);
-        }else {
+        } else {
             return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class);
         }
     }
 
-    public static JSONObject postMothod(CaseParametersDTO caseParametersDTO){
+    public static JSONObject postMothod(CaseParametersDTO caseParametersDTO) {
 
         HttpEntity<Map<Object, Object>> entity = null;
-
         Map<Object, Object> map = new HashMap<>();
         JSONObject requestParameters = caseParametersDTO.getBody();
-        requestParameters.keySet().stream().map(key->map.put(key,requestParameters.get(key))).collect(Collectors.toList());
-
+        requestParameters.keySet().stream().map(key -> map.put(key, requestParameters.get(key))).collect(Collectors.toList());
         JSONObject requestHeader = caseParametersDTO.getHeaderDetail();
-        if(requestHeader.size()!=0) {
+        if (requestHeader.size() != 0 || caseParametersDTO.isSign() == true) {
             HttpHeaders header = new HttpHeaders();
             for (String key : requestHeader.keySet()) {
                 header.add(key, (String) requestParameters.get(key));
-                entity = new HttpEntity<>(map, header);
             }
-        }else {
-            entity = new HttpEntity<>(map);
+            if (caseParametersDTO.getSignValue()!=null) {
+                header.add("", caseParametersDTO.getSignValue());
+            }
+                entity = new HttpEntity<>(map, header);
+            } else {
+                entity = new HttpEntity<>(map);
+            }
+            return restTemplate.postForObject(caseParametersDTO.getPath(), entity, JSONObject.class);
         }
-        return restTemplate.postForObject(caseParametersDTO.getPath(),entity, JSONObject.class);
     }
-}
