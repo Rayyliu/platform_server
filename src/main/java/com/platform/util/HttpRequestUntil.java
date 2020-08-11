@@ -15,7 +15,7 @@ public class HttpRequestUntil {
                 result = RequestMethodUntil.getMethod(caseParametersDTO);
                     break;
             case "post":
-                result= RequestMethodUntil.postMothod(caseParametersDTO);
+                result= RequestMethodUntil.postMethod(caseParametersDTO);
                     break;
         }
             return result;

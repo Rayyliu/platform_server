@@ -3,7 +3,9 @@ package com.platform.entity.dto;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.platform.entity.SignEntity;
 import com.platform.util.JsonDeserializer;
+import com.platform.util.SignEntityDeserializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -44,6 +46,13 @@ public class CaseParametersDTO {
     @ApiModelProperty(value = "接口是否签名",name = "sign",required = true)
     private boolean sign;
 
+    @ApiModelProperty(value = "是否设置header",name = "header",required = true)
+    private boolean header;
+
     @ApiModelProperty(value = "sign签名",name = "signValue",required = true)
     private String signValue;
+
+    @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter",required = true)
+    @JsonDeserialize(using = SignEntityDeserializer.class)
+    private SignEntity signEntity;
 }
