@@ -3,11 +3,14 @@ package com.platform.entity.dto;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.platform.entity.AssertionEntity;
 import com.platform.entity.SignEntity;
 import com.platform.util.JsonDeserializer;
 import com.platform.util.SignEntityDeserializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class CaseParametersDTO {
@@ -55,4 +58,7 @@ public class CaseParametersDTO {
     @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter",required = true)
     @JsonDeserialize(using = SignEntityDeserializer.class)
     private SignEntity signEntity;
+
+    @ApiModelProperty(value = "断言",name = "assertionEntity",required = true)
+    private List<AssertionEntity> assertionEntity;
 }
