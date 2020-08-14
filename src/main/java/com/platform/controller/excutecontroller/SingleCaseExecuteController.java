@@ -2,6 +2,7 @@ package com.platform.controller.excutecontroller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.platform.entity.AssertionEntity;
 import com.platform.entity.ExecuteResultEntity;
 import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.CaseParametersDTO;
@@ -31,6 +32,7 @@ public class SingleCaseExecuteController {
     @ApiOperation("单用例执行")
     public ResponseResult execute(@RequestBody CaseParametersDTO caseParametersDTO) {
         //封装get/post请求方法
+        //调用接口实际返回结果/用例执行结果
         JSONObject result = httpRequestUntil.httpRequest(caseParametersDTO);
         //断言
         List<String> assertResult = caseParametersDTO.getAssertionEntity().stream().map(
@@ -38,9 +40,14 @@ public class SingleCaseExecuteController {
                 .collect(Collectors.toList());
         System.out.println(assertResult);
         System.out.println(result);
+
         ExecuteResultEntity executeResultEntity =new ExecuteResultEntity();
+        //用例执行结果
         executeResultEntity.setInterFaceResult(result);
+        //断言结果
         executeResultEntity.setExecuteResult(assertResult);
+        //断言内容
+        List<AssertionEntity> assertionContent = caseParametersDTO.getAssertionEntity();
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", executeResultEntity);
     }
 }
