@@ -65,6 +65,6 @@ public class CaseParametersDTO {
     @ApiModelProperty(value = "最近执行人",name = "lastExecuteUser",required = true)
     private String lastExecuteUser;
 
-    @ApiModelProperty(value = "是否新增用例",name = "isAdd",required = true)
-    private boolean isAdd;
+    @ApiModelProperty(value = "是否新增用例",name = "add",required = true)
+    private boolean add;
 }
