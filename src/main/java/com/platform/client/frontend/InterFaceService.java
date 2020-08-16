@@ -29,5 +29,5 @@ public interface InterFaceService {
     String[] queryInterFace();
 
     @GetMapping("interface/queryByName")
-    Object queryByName(@RequestParam("interfaceName") String interfaceName);
+    InterFaceDTO queryByName(@RequestParam("interfaceName") String interfaceName);
 }

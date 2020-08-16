@@ -61,4 +61,7 @@ public class CaseParametersDTO {
 
     @ApiModelProperty(value = "断言",name = "assertionEntity",required = true)
     private List<AssertionEntity> assertionEntity;
+
+    @ApiModelProperty(value = "最近执行人",name = "lastExecuteUser",required = true)
+    private String lastExecuteUser;
 }

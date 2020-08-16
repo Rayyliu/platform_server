@@ -7,8 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AssertionUtil {
 
     @SneakyThrows
-    public static String assertUtil(String parameter,String except,String rule){
+    public static String assertUtil(String parameter,String except,String rule,int key){
 
+        key++;
         try {
             switch (rule){
                 //查看两个对象是否相等。类似于字符串比较使用的equals()方法
@@ -52,8 +53,8 @@ public class AssertionUtil {
             }
         }catch (org.opentest4j.AssertionFailedError ae){
 //            ae.printStackTrace();
-            return ae.getMessage();
+            return "第"+key+"条断言结果："+ae.getMessage();
         }
-        return "断言成功";
+        return "第"+key+"条断言结果："+"断言成功";
     }
 }

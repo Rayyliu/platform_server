@@ -1,11 +1,17 @@
 package com.platform.entity.dto;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.platform.entity.SignEntity;
+import com.platform.util.SignEntityDeserializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
 public class InterFaceDTO {
+
+    @ApiModelProperty(value = "接口id",name = "id",required=true)
+    private int id;
 
     @ApiModelProperty(value = "接口名称",name = "interfaceName",required=true)
     private String interfaceName;
@@ -34,9 +40,12 @@ public class InterFaceDTO {
     @ApiModelProperty(value = "接口描述",name = "description",required=true)
     private String description;
 
-    @ApiModelProperty(value = "header详情",name = "headerDetail",required=true)
+    @ApiModelProperty(value = "header详情",name = "headerDetail")
     private String  headerDetail;
 
     @ApiModelProperty(value = "接口参数",name = "body",required=true)
     private String body;
+
+    @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter")
+    private String signEntity;
 }

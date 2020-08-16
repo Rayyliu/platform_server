@@ -49,7 +49,7 @@ public class RequestMethodUntil {
         requestParameters.keySet().stream().map(key -> map.put(key, requestParameters.get(key))).collect(Collectors.toList());
         JSONObject requestHeader = caseParametersDTO.getHeaderDetail();
         if (caseParametersDTO.isHeader() == true) {
-            if (requestHeader.size() != 0) {
+            if (requestHeader!=null) {
                 for (String key : requestHeader.keySet()) {
                     header.add(key, (String) requestParameters.get(key));
                 }
