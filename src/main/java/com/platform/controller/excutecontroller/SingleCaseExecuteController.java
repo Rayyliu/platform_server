@@ -6,6 +6,7 @@ import com.platform.client.ExecuteService;
 import com.platform.client.frontend.InterFaceService;
 import com.platform.entity.AssertionEntity;
 import com.platform.entity.ExecuteResultEntity;
+import com.platform.entity.PageEntity;
 import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.CaseParametersDTO;
 import com.platform.response.ResultCode;
@@ -14,10 +15,8 @@ import com.platform.util.HttpRequestUntil;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class SingleCaseExecuteController {
 
     @SneakyThrows
     @PostMapping("execute")
-    @ApiOperation("单用例执行")
+    @ApiOperation("单用例新增及执行")
     public ResponseResult execute(@RequestBody CaseParametersDTO caseParametersDTO) {
         //封装get/post请求方法
         //调用接口实际返回结果/用例执行结果
@@ -71,20 +70,28 @@ public class SingleCaseExecuteController {
         int interfaceId = interFaceService.queryByName(caseParametersDTO.getInterFaceName()).getId();
         System.out.println(interfaceId);
 
-
-        Map<String,Object> record = new HashMap<>();
-        record.put("caseName",caseParametersDTO.getCaseName());
-        record.put("interfaceId",interfaceId);
-        record.put("project",caseParametersDTO.getProject());
-        record.put("body",caseParametersDTO.getBody());
-        record.put("response",response);
-        record.put("caseExecuteResult",caseExecuteResult);
-        record.put("assertionContent",assertionContent);
-        record.put("assertResult",assertResult);
-        record.put("last_execute_user",caseParametersDTO.getLastExecuteUser());
+        if(caseParametersDTO.isAdd()==true) {
+            Map<String, Object> record = new HashMap<>();
+            record.put("caseName", caseParametersDTO.getCaseName());
+            record.put("interfaceId", interfaceId);
+            record.put("project", caseParametersDTO.getProject());
+            record.put("body", caseParametersDTO.getBody());
+            record.put("response", response);
+            record.put("caseExecuteResult", caseExecuteResult);
+            record.put("assertionContent", assertionContent);
+            record.put("assertResult", assertResult);
+            record.put("last_execute_user", caseParametersDTO.getLastExecuteUser());
 //        record.put("creat_at", System.currentTimeMillis());
 //        record.put("update_at",System.currentTimeMillis());
-        executeService.insertAndRun(record);
+            executeService.insertAndRun(record);
+        }
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", executeResultEntity);
+    }
+
+    @GetMapping("queryPage")
+    @ApiOperation("查询所有用例")
+    public ResponseResult queryPage(int pageNum, int pageSize, String caseName){
+        PageEntity pageEntity = new PageEntity(pageNum,pageSize, executeService.queryPage(pageNum, pageSize, caseName),executeService.queryAll());
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", pageEntity);
     }
 }
