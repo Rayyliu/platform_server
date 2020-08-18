@@ -47,5 +47,8 @@ public class InterFaceDTO {
     private String body;
 
     @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter")
-    private String signEntity;
+    @JsonDeserialize(using = SignEntityDeserializer.class)
+    private SignEntity signEntity;
+
+
 }

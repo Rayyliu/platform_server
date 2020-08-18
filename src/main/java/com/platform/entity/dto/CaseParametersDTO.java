@@ -1,10 +1,11 @@
 package com.platform.entity.dto;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.platform.entity.AssertionEntity;
 import com.platform.entity.SignEntity;
+import com.platform.util.AssertionEntityDeserializer;
 import com.platform.util.JsonDeserializer;
 import com.platform.util.SignEntityDeserializer;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,6 +17,8 @@ import java.util.List;
 public class CaseParametersDTO {
 
 
+    @ApiModelProperty(value = "用例id",name = "id",required=true)
+    private int id;
 
     @ApiModelProperty(value = "用例名称",name = "caseName",required=true)
     private String caseName;
@@ -24,7 +27,7 @@ public class CaseParametersDTO {
     private String project;
 
     @ApiModelProperty(value = "用例描述",name = "caseDescription",required=true)
-    private String caseDescription;
+    private String description;
 
     @ApiModelProperty(value = "用例调用接口名称",name = "interFaceName",required=true)
     private String interFaceName;
@@ -59,12 +62,23 @@ public class CaseParametersDTO {
     @JsonDeserialize(using = SignEntityDeserializer.class)
     private SignEntity signEntity;
 
-    @ApiModelProperty(value = "断言",name = "assertionEntity",required = true)
-    private List<AssertionEntity> assertionEntity;
+    @ApiModelProperty(value = "断言内容",name = "assertionContent",required = true)
+//    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    @JsonDeserialize(using = AssertionEntityDeserializer.class)
+    private List<AssertionEntity> assertionContent;
 
     @ApiModelProperty(value = "最近执行人",name = "lastExecuteUser",required = true)
     private String lastExecuteUser;
 
     @ApiModelProperty(value = "是否新增用例",name = "add",required = true)
     private boolean add;
+
+    @ApiModelProperty(value = "用例是否有效",name = "valid",required = true)
+    private boolean valid;
+
+    @ApiModelProperty(value = "用例对应接口名称id",name = "interfaceId")
+    private int interfaceId;
+
+//    @ApiModelProperty(value = "用例最后执行时间",name = "lastExecuteTime",required = true)
+//    private Data lastExecuteTime;
 }

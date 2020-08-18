@@ -30,4 +30,7 @@ public interface InterFaceService {
 
     @GetMapping("interface/queryByName")
     InterFaceDTO queryByName(@RequestParam("interfaceName") String interfaceName);
+
+    @GetMapping("interface/queryByInterfaceId")
+    InterFaceDTO queryByInterfaceId(@RequestParam("interfaceId") int interfaceId);
 }
