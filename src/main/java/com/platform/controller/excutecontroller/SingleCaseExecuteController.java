@@ -47,7 +47,7 @@ public class SingleCaseExecuteController {
         if(caseParametersDTO.isAdd()==false){
             InterFaceDTO interfaceDetail = interFaceDetail.queryInterFaceInfo(caseParametersDTO);
             caseParametersDTO.setMethod(interfaceDetail.getMethod());
-            caseParametersDTO.setBody(JSONObject.parseObject(interfaceDetail.getBody()));
+            caseParametersDTO.setBody(caseParametersDTO.getBody());
             caseParametersDTO.setHeader(interfaceDetail.isHeader());
             caseParametersDTO.setPath(interfaceDetail.getPath());
             caseParametersDTO.setHeaderDetail(JSONObject.parseObject(interfaceDetail.getHeaderDetail()));

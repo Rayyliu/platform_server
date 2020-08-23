@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.platform.entity.AssertionEntity;
+import com.platform.entity.RequestBodyEntity;
 import com.platform.entity.SignEntity;
 import com.platform.util.AssertionEntityDeserializer;
 import com.platform.util.JsonDeserializer;
+import com.platform.util.RequestBodyEntityDeserializer;
 import com.platform.util.SignEntityDeserializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -39,8 +41,8 @@ public class CaseParametersDTO {
     private String path;
 
     @ApiModelProperty(value = "请求体",name = "body",required=true)
-    @JsonDeserialize(using = JsonDeserializer.class)
-    private JSONObject body;
+    @JsonDeserialize(using = RequestBodyEntityDeserializer.class)
+    private List<RequestBodyEntity> body;
 
     @ApiModelProperty(value = "请求头",name = "headerDetail",required=true)
     @JsonDeserialize(using = JsonDeserializer.class)

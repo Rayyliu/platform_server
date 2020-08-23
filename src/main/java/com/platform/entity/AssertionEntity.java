@@ -2,6 +2,7 @@ package com.platform.entity;
 
 import lombok.Data;
 
+
 @Data
 public class AssertionEntity {
 
