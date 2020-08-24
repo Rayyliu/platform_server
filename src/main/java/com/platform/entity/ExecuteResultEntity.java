@@ -10,8 +10,10 @@ import java.util.List;
 public class ExecuteResultEntity {
 
         @ApiModelProperty("结果实际返回结果")
-        private JSONObject response;
+        private List<JSONObject> response;
 
         @ApiModelProperty("断言结果")
         private List<String> assertionExecuteResult;
+
+
 }

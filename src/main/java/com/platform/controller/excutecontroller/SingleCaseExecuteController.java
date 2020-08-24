@@ -46,23 +46,28 @@ public class SingleCaseExecuteController {
         //判断是否是新增时运行用例
         if(caseParametersDTO.isAdd()==false){
             InterFaceDTO interfaceDetail = interFaceDetail.queryInterFaceInfo(caseParametersDTO);
-            caseParametersDTO.setMethod(interfaceDetail.getMethod());
+            caseParametersDTO.setMethod(caseParametersDTO.getMethod());
             caseParametersDTO.setBody(caseParametersDTO.getBody());
-            caseParametersDTO.setHeader(interfaceDetail.isHeader());
-            caseParametersDTO.setPath(interfaceDetail.getPath());
-            caseParametersDTO.setHeaderDetail(JSONObject.parseObject(interfaceDetail.getHeaderDetail()));
-            caseParametersDTO.setSign(interfaceDetail.isSign());
-            caseParametersDTO.setSignEntity(interfaceDetail.getSignEntity());
-            caseParametersDTO.setAssertionContent(executeService.queryById(caseParametersDTO.getId()).getAssertionContent());
+            caseParametersDTO.setHeader(caseParametersDTO.isHeader());
+            caseParametersDTO.setPath(caseParametersDTO.getPath());
+            caseParametersDTO.setHeaderDetail(caseParametersDTO.getHeaderDetail());
+            caseParametersDTO.setSign(caseParametersDTO.isSign());
+            caseParametersDTO.setSignEntity(caseParametersDTO.getSignEntity());
+            caseParametersDTO.setAssertionContent(caseParametersDTO.getAssertionContent());
         }
         //调用接口实际返回结果/用例执行结果
-        JSONObject response = httpRequestUntil.httpRequest(caseParametersDTO);
+        List<JSONObject> response = httpRequestUntil.httpRequest(caseParametersDTO);
         //断言
-        List<String> assertResult = caseParametersDTO.getAssertionContent().stream().map(
-                item -> AssertionUtil.assertUtil(response.getString(item.getParameter()), item.getExcept(), item.getRule(),item.getKey()))
-                .collect(Collectors.toList());
+        List<String> assertResult =null;
+        for(int i =0;i<response.size();i++) {
+            JSONObject responseData = response.get(i);
+            assertResult = caseParametersDTO.getAssertionContent().stream().map(
+                    item -> AssertionUtil.assertUtil(responseData.getString(item.getParameter()), item.getExcept(), item.getRule(), item.getKey()))
+                    .collect(Collectors.toList());
         System.out.println(assertResult);
         System.out.println(response);
+        }
+
 
         ExecuteResultEntity executeResultEntity =new ExecuteResultEntity();
 
