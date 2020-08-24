@@ -21,14 +21,13 @@ public class RequestMethodUntil {
 
     public static List<JSONObject> getMethod(CaseParametersDTO caseParametersDTO) {
         Map<Object, Object> map = new HashMap<>();
-        List<JSONObject> dataJSON = resolveBody(caseParametersDTO);
+        List<String> dataJSON = resolveBody(caseParametersDTO);
         if (caseParametersDTO.isHeader() == true) {
-            List<HttpEntity<?>> httpEntities = requestEntity(caseParametersDTO);
-            return getInvoke(caseParametersDTO,httpEntities);
+            return entity(caseParametersDTO);
 //            return JSONObject.parseObject(String.valueOf(restTemplate.exchange(caseParametersDTO.getPath(), HttpMethod.GET, entity(caseParametersDTO), String.class)));
         } else {
             if (dataJSON.size()!=0) {
-               List mapData = dataJSON.stream().map(item -> map.put(item.keySet(), item.get(item.keySet()))).collect(Collectors.toList());
+               List mapData = dataJSON.stream().map(item -> JSONObject.parse(item)).collect(Collectors.toList());
                 return (List<JSONObject>) mapData.stream().map(item->restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, item));
 //                return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, map);
             } else {
@@ -49,25 +48,14 @@ public class RequestMethodUntil {
      * @return
      */
     public static List<JSONObject> entity(CaseParametersDTO caseParametersDTO) {
-        Map<Object, Object> map = new HashMap<>();
-        HttpHeaders headers = new HttpHeaders();
-        List<JSONObject> dataJSON = resolveBody(caseParametersDTO);
-        List dataMap = dataJSON.stream().map(item -> map.put(item.keySet(), item.get(item.keySet()))).collect(Collectors.toList());
-        JSONObject requestHeader = caseParametersDTO.getHeaderDetail();
-        if (caseParametersDTO.isHeader() == true) {
-            if (requestHeader != null) {
-                for (String key : requestHeader.keySet()) {
-                    headers.add(key, (String) requestHeader.get(key));
-                }
-            }
-            if (caseParametersDTO.isSign() == true) {
-                headers.add("", sign(caseParametersDTO));
-            }
-
-            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (List<Map<Object, Object>>) data, headers)).collect(Collectors.toList());
+        List<String> dataJSON = resolveBody(caseParametersDTO);
+        List dataMap = dataJSON.stream().map(item ->JSONObject.parse(item)).collect(Collectors.toList());
+        HttpHeaders headers = resolveHeaders(caseParametersDTO);
+        if(headers!=null){
+            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
 //            return new HttpEntity<>(map, header);
         } else {
-            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (List<Map<Object, Object>>)data, null)).collect(Collectors.toList());
+            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, null)).collect(Collectors.toList());
         }
     }
 
@@ -87,13 +75,13 @@ public class RequestMethodUntil {
         return signResult;
     }
 
-    public static List<JSONObject> doInvokeInterface(CaseParametersDTO caseParametersDTO, List<Map<Object, Object>> map, HttpHeaders headers) {
-        List<JSONObject> result = null;
+    public static JSONObject doInvokeInterface(CaseParametersDTO caseParametersDTO, Map<Object, Object> map, HttpHeaders headers) {
+        JSONObject result = null;
         switch (caseParametersDTO.getMethod()) {
-            case "POST":
+            case "post":
                 return postInvoke(caseParametersDTO,map,headers);
             case "get":
-                return  getInvoke(caseParametersDTO,requestEntity(caseParametersDTO));
+                return  getInvoke(caseParametersDTO,requestEntity(map,headers));
         }
         return result;
     }
@@ -105,15 +93,15 @@ public class RequestMethodUntil {
      * @param headers
      * @return
      */
-    public static List<JSONObject> postInvoke(CaseParametersDTO caseParametersDTO, List<Map<Object, Object>> map, HttpHeaders headers){
+    public static JSONObject postInvoke(CaseParametersDTO caseParametersDTO, Map<Object, Object> map, HttpHeaders headers){
 
-        List<HttpEntity<Map<Object, Object>>> entity;
+        HttpEntity<Map<Object, Object>> entity;
         if (headers != null) {
-            entity = map.stream().map(item->new HttpEntity<>(item, headers)).collect(Collectors.toList());
+            entity = new HttpEntity<>(map, headers);
         } else {
-            entity = map.stream().map(item->new HttpEntity<>(item)).collect(Collectors.toList());
+            entity = new HttpEntity<>(map);
         }
-        return entity.stream().map(item->restTemplate.postForObject(caseParametersDTO.getPath(), item, JSONObject.class)).collect(Collectors.toList());
+        return restTemplate.postForObject(caseParametersDTO.getPath(), entity, JSONObject.class);
     }
 
     /***
@@ -122,25 +110,24 @@ public class RequestMethodUntil {
      * @param requestEntity
      * @return
      */
-    public static List<JSONObject> getInvoke(CaseParametersDTO caseParametersDTO,List<HttpEntity<?>> requestEntity){
-        return requestEntity.stream().map(item->JSONObject.parseObject(String.valueOf(restTemplate.exchange(caseParametersDTO.getPath(), HttpMethod.GET, item, String.class)))).collect(Collectors.toList());
+    public static JSONObject getInvoke(CaseParametersDTO caseParametersDTO,HttpEntity<?> requestEntity){
+        return JSONObject.parseObject(String.valueOf(restTemplate.exchange(caseParametersDTO.getPath(), HttpMethod.GET, (HttpEntity<?>) requestEntity, String.class)));
     }
 
 
     /***
      * 解析请求参数
-     * @param caseParametersDTO
+     * @param map<Object, Object> map, HttpHeaders headers
      * @return
      */
-    public static List<HttpEntity<?>> requestEntity(CaseParametersDTO caseParametersDTO){
+    public static HttpEntity<?> requestEntity(Map<Object, Object> map, HttpHeaders headers){
         HttpEntity<Map<Object, Object>> entity;
-        Map<Object, Object> map = new HashMap<>();
-        List<JSONObject> jsonBody = resolveBody(caseParametersDTO);
-        HttpHeaders headers = resolveHeaders(caseParametersDTO);
         if(headers.size()!=0){
-            return jsonBody.stream().map(item->new HttpEntity<>(jsonBody, headers)).collect(Collectors.toList());
+             entity = new HttpEntity<>(map, headers);
+            return entity;
         }else{
-            return jsonBody.stream().map(item->new HttpEntity<>(jsonBody)).collect(Collectors.toList());
+             entity = new HttpEntity<>(map);
+            return entity;
         }
     }
 
@@ -150,12 +137,12 @@ public class RequestMethodUntil {
      * @param caseParametersDTO
      * @return
      */
-    public static List<JSONObject> resolveBody(CaseParametersDTO caseParametersDTO){
+    public static List<String> resolveBody(CaseParametersDTO caseParametersDTO){
 
         List<RequestBodyEntity> requestParameters = caseParametersDTO.getBody();
         List caseData = requestParameters.stream().map(item -> item.getCaseData()).collect(Collectors.toList());
-        List<JSONObject> caseJson = (List<JSONObject>) caseData.stream().map(item->JSONObject.toJSON(item)).collect(Collectors.toList());
-        return caseJson;
+//        List<JSONObject> caseJson = (List<JSONObject>) caseData.stream().map(item->JSONObject.parseObject((String) item)).collect(Collectors.toList());
+        return caseData;
     }
 
 
