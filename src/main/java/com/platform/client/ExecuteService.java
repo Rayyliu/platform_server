@@ -29,8 +29,8 @@ public interface ExecuteService {
     int queryAll();
 
     @PostMapping("execute/update")
-    @ApiOperation("编辑或执行用例修改用例记录")
-    int editExecuteRecord(Map<String,Object> record);
+    @ApiOperation("编辑用例")
+    Object editExecuteRecord(Map<String,Object> record);
 
     @GetMapping("execute/queryByCaseName")
     @ApiOperation("通过用例名查询用例")

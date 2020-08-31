@@ -1,7 +1,6 @@
 package com.platform.controller.excutecontroller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.client.ExecuteService;
 import com.platform.client.frontend.InterFaceService;
@@ -58,14 +57,19 @@ public class SingleCaseExecuteController {
         //调用接口实际返回结果/用例执行结果
         List<JSONObject> response = httpRequestUntil.httpRequest(caseParametersDTO);
         //断言
-        List<String> assertResult =null;
-        for(int i =0;i<response.size();i++) {
+        List<String> assertResult =new ArrayList<>();
+        List<String> assertResults =new ArrayList<>();
+        int i;
+        for(i =0;i<response.size();i++) {
             JSONObject responseData = response.get(i);
+            int finalI = i;
             assertResult = caseParametersDTO.getAssertionContent().stream().map(
-                    item -> AssertionUtil.assertUtil(responseData.getString(item.getParameter()), item.getExcept(), item.getRule(), item.getKey()))
+                    item -> AssertionUtil.assertUtil(caseParametersDTO.getBody().get(finalI).getKey(),responseData.getString(item.getParameter()), item.getExcept(), item.getRule(), item.getKey()))
                     .collect(Collectors.toList());
-        System.out.println(assertResult);
-        System.out.println(response);
+            assertResults.addAll(assertResult);
+            System.out.println(assertResult);
+            System.out.println(assertResults);
+            System.out.println(response);
         }
 
 
@@ -75,7 +79,7 @@ public class SingleCaseExecuteController {
         executeResultEntity.setResponse(response);
 
         //断言结果
-        executeResultEntity.setAssertionExecuteResult(assertResult);
+        executeResultEntity.setAssertionExecuteResult(assertResults);
 
         //断言内容
         List<AssertionEntity> assertionContents = caseParametersDTO.getAssertionContent();
@@ -96,7 +100,8 @@ public class SingleCaseExecuteController {
             record.put("response", response);
             record.put("caseExecuteResult", caseExecuteResult);
             record.put("assertionContent", assertionContents);
-            record.put("assertResult", assertResult);
+            record.put("assertResult", assertResults);
+            record.put("lastExecuteTime",new Date());
             record.put("last_execute_user", caseParametersDTO.getLastExecuteUser());
             record.put("valid",caseParametersDTO.isValid());
             record.put("description",caseParametersDTO.getDescription());
@@ -118,8 +123,8 @@ public class SingleCaseExecuteController {
     }
 
     @GetMapping("queryPage")
-    @ApiOperation("查询所有用例")
-    public ResponseResult queryPage(int pageNum, int pageSize, String caseName){
+    @ApiOperation("分页查询和搜索")
+    public ResponseResult queryPage(int pageNum, int pageSize, @RequestParam(value = "caseName",required = false)String caseName){
         PageEntity pageEntity = new PageEntity(pageNum,pageSize, executeService.queryPage(pageNum, pageSize, caseName),executeService.queryAll());
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", pageEntity);
     }
