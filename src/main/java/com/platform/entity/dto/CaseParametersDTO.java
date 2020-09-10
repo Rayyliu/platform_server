@@ -6,16 +6,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.platform.entity.AssertionEntity;
 import com.platform.entity.RequestBodyEntity;
 import com.platform.entity.SignEntity;
-import com.platform.util.AssertionEntityDeserializer;
-import com.platform.util.JsonDeserializer;
-import com.platform.util.RequestBodyEntityDeserializer;
-import com.platform.util.SignEntityDeserializer;
+import com.platform.util.*;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@JsonDeserialize(using = CaseParametersDTODeserializer.class)
 public class CaseParametersDTO {
 
 
