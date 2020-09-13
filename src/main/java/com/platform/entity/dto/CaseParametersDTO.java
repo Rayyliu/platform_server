@@ -13,7 +13,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonDeserialize(using = CaseParametersDTODeserializer.class)
 public class CaseParametersDTO {
 
 

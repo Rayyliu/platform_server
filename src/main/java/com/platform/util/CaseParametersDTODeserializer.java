@@ -13,6 +13,7 @@ public class CaseParametersDTODeserializer extends com.fasterxml.jackson.databin
     @Override
     public List<CaseParametersDTO> deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
         //String 转换成 List<String >：List<T> list=JSONArray.parseArray("",T.class);
-        return JSONArray.parseArray(jsonParser.getText(),CaseParametersDTO.class);
+        List<CaseParametersDTO> caseParametersDTOList = JSONArray.parseArray(jsonParser.getText(),CaseParametersDTO.class);
+        return caseParametersDTOList;
     }
 }

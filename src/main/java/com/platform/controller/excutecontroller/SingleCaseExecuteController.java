@@ -1,6 +1,7 @@
 package com.platform.controller.excutecontroller;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.client.ExecuteService;
 import com.platform.client.frontend.InterFaceService;
@@ -41,11 +42,11 @@ public class SingleCaseExecuteController {
     @SneakyThrows
     @PostMapping("execute")
     @ApiOperation("单用例新增及执行")
-    public ResponseResult execute(@RequestBody List<CaseParametersDTO> caseParametersDTOList) {
+    public ResponseResult execute(@RequestParam(value = "valuesArr",required = false) CaseParametersDTO[] valuesArr) {
 
         ExecuteResultEntity executeResultEntity = new ExecuteResultEntity();
         //判断是否是新增时运行用例
-        for (CaseParametersDTO caseParametersDTO : caseParametersDTOList) {
+        for (CaseParametersDTO caseParametersDTO : valuesArr) {
             if (caseParametersDTO.isAdd() == false) {
                 caseParametersDTO.setMethod(caseParametersDTO.getMethod());
                 caseParametersDTO.setBody(caseParametersDTO.getBody());
