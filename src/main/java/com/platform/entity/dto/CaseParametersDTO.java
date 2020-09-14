@@ -25,7 +25,7 @@ public class CaseParametersDTO {
     @ApiModelProperty(value = "所属项目",name = "project",required=true)
     private String project;
 
-    @ApiModelProperty(value = "用例描述",name = "caseDescription",required=true)
+    @ApiModelProperty(value = "用例描述",name = "description",required=true)
     private String description;
 
     @ApiModelProperty(value = "用例调用接口名称",name = "interFaceName",required=true)
