@@ -1,7 +1,6 @@
 package com.platform.controller.excutecontroller;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.client.ExecuteService;
 import com.platform.client.frontend.InterFaceService;
@@ -10,7 +9,7 @@ import com.platform.entity.ExecuteResultEntity;
 import com.platform.entity.PageEntity;
 import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.CaseParametersDTO;
-import com.platform.entity.dto.InterFaceDTO;
+import com.platform.entity.dto.RequestParameterDTO;
 import com.platform.response.ResultCode;
 import com.platform.tools.InterFaceDetail;
 import com.platform.util.AssertionUtil;
@@ -42,11 +41,13 @@ public class SingleCaseExecuteController {
     @SneakyThrows
     @PostMapping("execute")
     @ApiOperation("单用例新增及执行")
-    public ResponseResult execute(@RequestParam(value = "valuesArr",required = false) CaseParametersDTO[] valuesArr) {
+//    public ResponseResult execute(@RequestParam(value = "valuesJson",required = false) String valuesArr) {
+
+    public ResponseResult execute(@RequestBody RequestParameterDTO valuesArr) {
 
         ExecuteResultEntity executeResultEntity = new ExecuteResultEntity();
         //判断是否是新增时运行用例
-        for (CaseParametersDTO caseParametersDTO : valuesArr) {
+        for (CaseParametersDTO caseParametersDTO : valuesArr.getValuesArr()) {
             if (caseParametersDTO.isAdd() == false) {
                 caseParametersDTO.setMethod(caseParametersDTO.getMethod());
                 caseParametersDTO.setBody(caseParametersDTO.getBody());
