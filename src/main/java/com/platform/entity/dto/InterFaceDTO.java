@@ -40,11 +40,14 @@ public class InterFaceDTO {
     @ApiModelProperty(value = "接口描述",name = "description",required=true)
     private String description;
 
-    @ApiModelProperty(value = "header详情",name = "headerDetail")
-    private String  headerDetail;
+    @ApiModelProperty(value = "header详情",name = "headerdetail")
+    private String  headerdetail;
 
     @ApiModelProperty(value = "接口参数",name = "body",required=true)
     private String body;
+
+    @ApiModelProperty(value = "断言内容",name = "assertDataSource",required=true)
+    private String assertDataSource;
 
     @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter")
     @JsonDeserialize(using = SignEntityDeserializer.class)
