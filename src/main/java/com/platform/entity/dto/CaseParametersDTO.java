@@ -54,12 +54,16 @@ public class CaseParametersDTO {
     @ApiModelProperty(value = "是否设置header",name = "header",required = true)
     private boolean header;
 
-    @ApiModelProperty(value = "sign签名",name = "signValue",required = true)
-    private String signValue;
+    @ApiModelProperty(value = "sign签名属性",name = "signAttribute",required = true)
+    private String signAttribute;
 
     @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter",required = true)
     @JsonDeserialize(using = SignEntityDeserializer.class)
     private SignEntity signEntity;
+
+    @ApiModelProperty(value = "提取参数",name = "extract",required = true)
+//    @JsonDeserialize(using = StringDeserializer.class)
+    private String extract;
 
     @ApiModelProperty(value = "断言内容",name = "assertionContent",required = true)
 //    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)

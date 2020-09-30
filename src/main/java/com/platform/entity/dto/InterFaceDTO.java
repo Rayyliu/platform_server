@@ -31,6 +31,10 @@ public class InterFaceDTO {
     @ApiModelProperty(value = "是否签名",name = "sign",required=true)
     private boolean sign;
 
+    @ApiModelProperty(value = "签名11属性",name = "signAttribute",required=true)
+    private String signAttribute;
+
+
     @ApiModelProperty(value = "是否设置header",name = "header",required=true)
     private boolean header;
 
@@ -48,6 +52,9 @@ public class InterFaceDTO {
 
     @ApiModelProperty(value = "断言内容",name = "assertDataSource",required=true)
     private String assertDataSource;
+
+    @ApiModelProperty(value = "提取参数",name = "extract",required=true)
+    private String extract;
 
     @ApiModelProperty(value = "生成sign签名所属字段",name = "signParameter")
     @JsonDeserialize(using = SignEntityDeserializer.class)

@@ -39,7 +39,7 @@ public class ResponseResult<T> {
         this.data = data;
     }
 
-    public   ResponseResult<T> success(Integer code,boolean flag,String message,T data){
+    public ResponseResult<T> success(Integer code,boolean flag,String message,T data){
         return new ResponseResult(code,true,message,data);
     }
 
