@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.platform.entity.RequestBodyEntity;
 import com.platform.entity.dto.CaseParametersDTO;
+import org.bouncycastle.crypto.tls.ContentType;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,16 +25,31 @@ public class RequestMethodUntil {
         Map<Object, Object> map = new HashMap<>();
         List<String> dataJSON = resolveBody(caseParametersDTO);
         if (caseParametersDTO.isHeader() == true) {
-            return entity(caseParametersDTO);
+            HttpHeaders headers = resolveHeaders(caseParametersDTO);
+            if(headers!=null){
+                return getMethodUntil(dataJSON,caseParametersDTO,headers,map);
+            }else {
+                throw new RuntimeException("请设置header值");
+            }
+//            return entity(caseParametersDTO);
 //            return JSONObject.parseObject(String.valueOf(restTemplate.exchange(caseParametersDTO.getPath(), HttpMethod.GET, entity(caseParametersDTO), String.class)));
         } else {
-            if (dataJSON.size()!=0) {
-               List mapData = dataJSON.stream().map(item -> JSONObject.parse(item)).collect(Collectors.toList());
-                return (List<JSONObject>) mapData.stream().map(item->restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, item));
+            return getMethodUntil(dataJSON,caseParametersDTO,null,map);
+        }
+//        return null;
+    }
+
+    static List<JSONObject> getMethodUntil(List<String> dataJSON,CaseParametersDTO caseParametersDTO,HttpHeaders headers,Map<Object, Object> map){
+        if (dataJSON.size()!=0) {
+            List mapData = dataJSON.stream().map(item -> JSONObject.parse(item)).collect(Collectors.toList());
+            return (List<JSONObject>)mapData.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
 //                return restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class, map);
-            } else {
-                return (List<JSONObject>)restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class);
-            }
+        }
+        else {
+//            return (List<JSONObject>)restTemplate.getForObject(caseParametersDTO.getPath(), JSONObject.class);
+//            return JSONArray.parseArray(doInvokeInterface(caseParametersDTO, null, headers).toString(),JSONObject.class);
+               return dataJSONEqualNull(caseParametersDTO,headers);
+//            JSONArray.parseArray(resultString,JSONArray.class);
         }
     }
 
@@ -49,6 +65,7 @@ public class RequestMethodUntil {
      * @return
      */
     public static List<JSONObject> entity(CaseParametersDTO caseParametersDTO) {
+        HttpHeaders headers = resolveHeaders(caseParametersDTO);
         List<String> dataJSON = resolveBody(caseParametersDTO);
         List dataMap = dataJSON.stream().map(item ->JSONObject.parseObject(item,Map.class)).collect(Collectors.toList());
 //        for(String item:dataJSON) {
@@ -56,15 +73,28 @@ public class RequestMethodUntil {
 //            dataMap.add(ob);
 //        }
 //        List dataMap = dataJSON.stream().map(item ->JSONObject.parseObject(item,Map.class)).collect(Collectors.toList());
-        HttpHeaders headers = resolveHeaders(caseParametersDTO);
-        if(headers!=null){
-            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
+        if(dataMap.size()>0){
+//            if(headers!=null){
+                return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
 //            return new HttpEntity<>(map, header);
-        } else {
-            return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
+//            } else {
+//                return (List<JSONObject>)dataMap.stream().map(data -> doInvokeInterface(caseParametersDTO, (Map<Object, Object>) data, headers)).collect(Collectors.toList());
+//            }
+        }
+        else{
+            return dataJSONEqualNull(caseParametersDTO,headers);
         }
     }
 
+
+    public static List<JSONObject> dataJSONEqualNull(CaseParametersDTO caseParametersDTO,HttpHeaders headers){
+        JSONObject jsonObject= doInvokeInterface(caseParametersDTO, null, headers);
+        List<JSONObject> Lj = new ArrayList<>();
+        Lj.add(jsonObject);
+        String ljString=JSON.toJSONString(Lj);
+        List<JSONObject> Ljo =JSON.parseArray(ljString,JSONObject.class);
+        return Ljo;
+    }
 
     /***
      * 接口签名
@@ -162,6 +192,8 @@ public class RequestMethodUntil {
     public static HttpHeaders resolveHeaders(CaseParametersDTO caseParametersDTO){
         HttpHeaders headers = new HttpHeaders();
         JSONObject requestHeader = caseParametersDTO.getHeaderDetail();
+
+        //判断是否需要自定义header信息
         if (caseParametersDTO.isHeader() == true) {
             if (requestHeader.size() > 0) {
                 for (String key : requestHeader.keySet()) {
@@ -173,7 +205,9 @@ public class RequestMethodUntil {
             }
             return headers;
         }else {
-            return null;
+            headers.add("Content-Type", "application/json");
+            headers.add("Accept", "application/json;charset=UTF-8");
+            return headers;
         }
 
 }

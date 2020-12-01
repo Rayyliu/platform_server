@@ -6,10 +6,7 @@ import com.platform.entity.ResponseResult;
 import com.platform.entity.dto.CaseParametersDTO;
 import com.platform.response.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -24,5 +21,11 @@ public class CaseController {
     public ResponseResult updateExecuteRecord(@RequestBody Map<String,Object> record ){
 
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", executeService.editExecuteRecord(record));
+    }
+
+    @GetMapping("deletes")
+    public ResponseResult delSingleExecuteRecord(String[] recordIds ){
+        executeService.deletes(recordIds);
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", null);
     }
 }

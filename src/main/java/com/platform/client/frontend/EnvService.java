@@ -1,6 +1,7 @@
 package com.platform.client.frontend;
 
 import com.platform.entity.dto.EnvDTO;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,4 +32,12 @@ public interface EnvService {
 
     @PostMapping("env/edit")
     int update(EnvDTO env);
+
+    @GetMapping("env/queryEnvDetail")
+    @ApiOperation("查询环境详情")
+    List<EnvDTO> queryEnv();
+
+    @GetMapping("env/getPathByEnvName")
+    @ApiOperation("查询环境详情")
+    String getPathByEnvName(@RequestParam("envName")String envName);
 }

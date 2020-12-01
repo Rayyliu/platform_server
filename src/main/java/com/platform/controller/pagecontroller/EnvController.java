@@ -58,5 +58,11 @@ public class EnvController {
         envService.update(envDTO);
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"编辑环境成功",null);
     }
+
+    @GetMapping("queryEnvName")
+    @ApiOperation("查询环境名称")
+    public ResponseResult queryEnvName(String envName){
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(),true,"查询环境名称成功",envService.getPathByEnvName(envName));
+    }
 }
 

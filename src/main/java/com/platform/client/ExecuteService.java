@@ -20,6 +20,10 @@ public interface ExecuteService {
     @ApiOperation("调用添加用例表执行记录接口")
     int insertAndRun(Map<String,Object> record);
 
+    @GetMapping("execute/deletes")
+    @ApiOperation("删除单个测试用例执行记录")
+    void deletes(@RequestParam("recordIds")String[] recordIds);
+
     @GetMapping("execute/queryPage")
     @ApiOperation("用例记录分页查询")
     List queryPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize")int pageSize, @RequestParam("caseName")String caseName);
@@ -34,7 +38,7 @@ public interface ExecuteService {
 
     @GetMapping("execute/queryByCaseName")
     @ApiOperation("通过用例名查询用例")
-    CaseParametersDTO queryByCaseName(@RequestParam("caseName")String caseName);
+    CaseParametersDTO queryByCaseName(@RequestParam("caseName") String caseName);
 
     @GetMapping("execute/queryById")
     @ApiOperation("通过用例名查询用例")

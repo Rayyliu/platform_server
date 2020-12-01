@@ -19,6 +19,7 @@ import com.platform.util.HttpRequestUntil;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("single/case")
+@Transactional(rollbackFor = Exception.class)
 public class SingleCaseExecuteController {
 
     @Autowired
@@ -48,4 +50,6 @@ public class SingleCaseExecuteController {
         PageEntity pageEntity = new PageEntity(pageNum,pageSize, executeService.queryPage(pageNum, pageSize, caseName),executeService.queryAll());
         return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", pageEntity);
     }
+
+
 }
