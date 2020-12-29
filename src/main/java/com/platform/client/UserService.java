@@ -22,4 +22,5 @@ public interface UserService {
       Object findUser(@PathVariable("userName")String userName);
 //    @GetMapping(value = "user/username/")
 //    Object findUser(String userName);
+
 }
