@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="10 seconds">
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+
+    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
+    <property name="LOG_HOME"
+              value="/home/simplecredit/log/platform_server/applog"
+    />
+    <!-- 控制台输出设置日志内容格式，颜色及字符编码 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <!--设置控制台日志打印颜色-->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <!-- 设置每天生成日志文件，文件名格式、文件保留天数、文件内容格式及日志文件的最大大小 -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_HOME}/sctest-data-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!--日志文件保留天数-->
+            <MaxHistory>30</MaxHistory>
+            <MaxHistory>50M</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <!--日志文件最大的大小-->
+        <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
+            <!--<MaxFileSize>5MB</MaxFileSize>-->
+        <!--</triggeringPolicy>-->
+    </appender>
+
+    <!-- root的日志输出级别，若其他包或者类没有单独配置，都采用root方式的配置级别及日志打印输出位置 -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+    </root>
+
+
+    <!--logger的配置目的：可以配置单独类或包下的打印日志等级，脱离root的等级限制，可以设置比root高，也可以比root低。没有单独配置的话，默认root配置-->
+    <!--单独配置不同类或包下的日志级别,没有配置的其他类或者包，默认去上级也就是root的日志级别，这里是info-->
+    <!--这里配置的debug，所以在com.generator包下的所有类的debug等级日志会脱root为info等级限制，打印到控制台和日志文件里。-->
+    <!--<logger name="com.data.generator" level="debug" additivity="false">-->
+    <!--&lt;!&ndash;配置指定包或者类打印日志输入地方&ndash;&gt;-->
+    <!--&lt;!&ndash;配置打印到控制台，只有这里配置了才会打印到控制台&ndash;&gt;-->
+    <!--<appender-ref ref="CONSOLE"></appender-ref>-->
+    <!--&lt;!&ndash;配置打印到日志文件里，只有这里配置了才会保存到日志文件内&ndash;&gt;-->
+    <!--<appender-ref ref="FILE"></appender-ref>-->
+    <!--</logger>-->
+</configuration>
