@@ -53,6 +53,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <!--scope注释原因 IDEA编译本地不通过识别不到jar,上传需释放-->
+            <scope>provided</scope>
+        </dependency>
 
 
 
