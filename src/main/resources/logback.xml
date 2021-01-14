@@ -43,7 +43,7 @@
     </appender>
 
     <!-- root的日志输出级别，若其他包或者类没有单独配置，都采用root方式的配置级别及日志打印输出位置 -->
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="FILE" />
     </root>
