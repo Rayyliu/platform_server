@@ -1,6 +1,9 @@
 package com.platform.entity;
 
+import com.platform.entity.po.SysRole;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserEntity {
@@ -26,5 +29,8 @@ public class UserEntity {
      */
     private String role;
 
-
+    /***
+     * 角色
+     */
+    private List<SysRole> roles;
 }

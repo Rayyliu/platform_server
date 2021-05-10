@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RequestParameterDTO {
+public class RequestParameterDTO extends PlatformBaseDTO{
 
 //    @JsonDeserialize(using = CaseParametersDTODeserializer.class)
     private List<CaseParametersDTO> valuesArr;

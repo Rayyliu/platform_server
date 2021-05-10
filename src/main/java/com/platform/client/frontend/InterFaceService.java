@@ -29,7 +29,7 @@ public interface InterFaceService {
     String[] queryInterFace();
 
     @GetMapping("interface/queryByName")
-    InterFaceDTO queryByName(@RequestParam("interfaceName") String interfaceName);
+    InterFaceDTO queryByName(@RequestParam("interfaceName") String interfaceName,@RequestParam("jsessionid")String jsessionid);
 
     @GetMapping("interface/queryByInterfaceId")
     InterFaceDTO queryByInterfaceId(@RequestParam("interfaceId") int interfaceId);

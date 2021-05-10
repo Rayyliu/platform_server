@@ -34,7 +34,7 @@ public interface ExecuteService {
 
     @PostMapping("execute/update")
     @ApiOperation("编辑用例")
-    Object editExecuteRecord(Map<String,Object> record);
+    Object editExecuteRecord(Map<String,Object> record,@RequestParam("jsessionid") String jsessionid);
 
     @GetMapping("execute/queryByCaseName")
     @ApiOperation("通过用例名查询用例")

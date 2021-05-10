@@ -13,7 +13,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class CaseParametersDTO{
+public class CaseParametersDTO extends PlatformBaseDTO{
 
 
     @ApiModelProperty(value = "用例id",name = "id",required=true)

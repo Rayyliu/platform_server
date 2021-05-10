@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Map;
+
 @Component
 @FeignClient(name = "platform-data")
 public interface UserService {
@@ -22,5 +24,8 @@ public interface UserService {
       Object findUser(@PathVariable("userName")String userName);
 //    @GetMapping(value = "user/username/")
 //    Object findUser(String userName);
+
+    @PostMapping("user/login")
+    Map<String,String> login(@RequestBody Map<String,String> loginMap);
 
 }

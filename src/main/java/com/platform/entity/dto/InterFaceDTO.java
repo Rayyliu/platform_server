@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class InterFaceDTO {
+public class InterFaceDTO extends PlatformBaseDTO{
 
     @ApiModelProperty(value = "接口id",name = "id",required=true)
     private int id;

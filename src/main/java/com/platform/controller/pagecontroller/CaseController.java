@@ -18,9 +18,9 @@ public class CaseController {
     ExecuteService executeService;
 
     @PostMapping("update")
-    public ResponseResult updateExecuteRecord(@RequestBody Map<String,Object> record ){
+    public ResponseResult updateExecuteRecord(@RequestBody Map<String,Object> record){
 
-        return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", executeService.editExecuteRecord(record));
+        return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功", executeService.editExecuteRecord(record, (String) record.get("jsessionid")));
     }
 
     @GetMapping("deletes")

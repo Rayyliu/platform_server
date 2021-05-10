@@ -3,7 +3,7 @@ package com.platform.entity.dto;
 import lombok.Data;
 
 @Data
-public class EnvDTO {
+public class EnvDTO extends PlatformBaseDTO{
 
     private int id;
     private String envName;

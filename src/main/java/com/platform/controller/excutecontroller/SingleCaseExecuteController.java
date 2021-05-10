@@ -40,7 +40,7 @@ public class SingleCaseExecuteController {
     @SneakyThrows
     @PostMapping("execute")
     @ApiOperation("单用例新增及执行")
-    public ResponseResult execute(@RequestBody RequestParameterDTO valuesArr) {
+    public ResponseResult execute(@RequestBody RequestParameterDTO valuesArr,@RequestParam(value = "jsessionid") String jsessionid) {
             return new ResponseResult().success(ResultCode.SUCCESS.getCode(), true, "用例执行成功",caseExecuteService.caseExecute(valuesArr));
     }
 

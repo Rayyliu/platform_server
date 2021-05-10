@@ -67,7 +67,7 @@ public class CaseExecuteServiceImpl implements CaseExecuteService {
         for(CaseParametersDTO caseParametersDTO:cases){
             log.info("执行用例："+caseParametersDTO.getCaseName());
             InterFaceDTO interFaceDTO= interFaceService.queryByInterfaceId(executeService.queryByCaseName(caseParametersDTO.getCaseName()).getInterfaceId());
-            String requestURL=null;
+            String requestURL;
             if(!getUrlPrefix(interFaceDTO.getPath())){
                 URL url =new URL(interFaceDTO.getPath());
                 String host = envService.getPathByEnvName(plan.getEnv());
@@ -203,7 +203,7 @@ public class CaseExecuteServiceImpl implements CaseExecuteService {
             record.put("response", response);
             record.put("caseExecuteResult", caseExecuteResult);
             record.put("assertResult", assertResult);
-            executeService.editExecuteRecord(record);
+            executeService.editExecuteRecord(record,caseParametersDTO.getSessionId());
         }
         return executeResultEntity;
     }

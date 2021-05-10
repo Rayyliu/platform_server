@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class ProjectDTO {
+public class ProjectDTO extends PlatformBaseDTO{
 
     private int id;
     private String projectName;

@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class PlanDTO implements Serializable {
+public class PlanDTO  extends PlatformBaseDTO implements Serializable  {
 
     private static final long serialVersionUID = 1L;
 
